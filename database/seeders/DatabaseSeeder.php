@@ -11,8 +11,39 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Criar 5 usuários
-        $users = User::factory()->count(5)->create();
+        // Criar usuários específicos
+        $users = collect([
+            User::create([
+                'name' => 'Lucas Brisch',
+                'email' => 'lucas@biblioteca.com',
+                'password' => bcrypt('password'),
+                'role' => 'admin',
+            ]),
+            User::create([
+                'name' => 'Maria Silva',
+                'email' => 'maria@biblioteca.com',
+                'password' => bcrypt('password'),
+                'role' => 'user',
+            ]),
+            User::create([
+                'name' => 'João Santos',
+                'email' => 'joao@biblioteca.com',
+                'password' => bcrypt('password'),
+                'role' => 'user',
+            ]),
+            User::create([
+                'name' => 'Ana Costa',
+                'email' => 'ana@biblioteca.com',
+                'password' => bcrypt('password'),
+                'role' => 'librarian',
+            ]),
+            User::create([
+                'name' => 'Pedro Oliveira',
+                'email' => 'pedro@biblioteca.com',
+                'password' => bcrypt('password'),
+                'role' => 'user',
+            ]),
+        ]);
 
         // Criar alguns livros
         $books = Book::insert([
