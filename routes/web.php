@@ -1,12 +1,22 @@
 <?php
 
 use Inertia\Inertia;
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\LoginController;
 
+Route::get('/register', [RegisterController::class, 'create'])->name('register');
+Route::post('/register', [RegisterController::class, 'store']);
+Route::get('/login', [LoginController::class, 'create'])->name('login');
+Route::post('/login', [LoginController::class, 'store']);
 Route::get('/', function () {
-    return Inertia::render('Books/Index');
+    return Inertia::render('Auth/Login');
 });
 
-Route::get('/books', [BookController::class, 'index']);
+Route::middleware('auth')->group(function () {
+    
+    Route::get('/books', [BookController::class, 'index']);
+    Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
+    
+});

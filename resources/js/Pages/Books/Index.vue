@@ -1,14 +1,20 @@
 <script setup>
 import { defineProps } from 'vue';
+import { router } from '@inertiajs/vue3';
 
 const props = defineProps({
     books: Array
 });
+
+const logout = () => {
+    router.post('/logout');
+};
 </script>
 
 <template>
     <div class="p-6">
         <h1 class="text-2xl font-bold mb-4">Lista de Livros</h1>
+        <button @click="logout">Sair</button>
 
         <table class="min-w-full border">
             <thead>
@@ -33,5 +39,7 @@ const props = defineProps({
                 </tr>
             </tbody>
         </table>
+
+        
     </div>
 </template>
