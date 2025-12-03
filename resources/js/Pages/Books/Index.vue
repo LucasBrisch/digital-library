@@ -1,12 +1,27 @@
 <script setup>
 import { defineProps } from 'vue';
-import { router } from '@inertiajs/vue3';
+import { router, usePage } from '@inertiajs/vue3';
 import Header from '../components/header.vue';
 
+const page = usePage();
+
 const props = defineProps({
-    books: Array
+    books: Array,
+    userId: Number
 });
 
+const rentBook = (bookId) => {
+    const userId = props.userId;
+    if (!userId) {
+        alert('Usuário não autenticado');
+        return;
+    }
+
+    router.post('/rent-a-book', {
+        book_id: bookId,
+        user_id: userId
+    });
+};
 
 </script>
 
@@ -41,7 +56,7 @@ const props = defineProps({
                     <td class="">{{ book.rented_copies }}</td>
                     <td class="">{{ book.available_copies }}</td>
                     <td>
-                        <button>Alugar</button>
+                        <button @click="rentBook(book.id)">Alugar</button>
                     </td>
                 </tr>
             </tbody>

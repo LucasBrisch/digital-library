@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\RentalController;
 
 Route::get('/register', [RegisterController::class, 'create'])->name('register');
 Route::post('/register', [RegisterController::class, 'store']);
@@ -17,6 +18,7 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function () {
     
     Route::get('/books', [BookController::class, 'index']);
+    Route::post('/rent-a-book', [RentalController::class, 'store'])->name('rent.a.book');
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
     
 });
