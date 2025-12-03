@@ -1,2 +1,6 @@
 <template></template>
-<script></script>
+<script setup>
+    props = defineProps ({
+        Rentals : Array,
+    })
+</script>
