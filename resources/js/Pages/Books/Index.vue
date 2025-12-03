@@ -56,7 +56,16 @@ const rentBook = (bookId) => {
                     <td class="">{{ book.rented_copies }}</td>
                     <td class="">{{ book.available_copies }}</td>
                     <td>
-                        <button @click="rentBook(book.id)">Alugar</button>
+                        <span v-if="book.is_rented">Alugado</span>
+
+                        <button 
+                            v-else-if="book.available_copies > 0" 
+                            @click="rentBook(book.id)"
+                        >
+                            Alugar
+                        </button>
+
+                        <span v-else>Indisponível</span>
                     </td>
                 </tr>
             </tbody>

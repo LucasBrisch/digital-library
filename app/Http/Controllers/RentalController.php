@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Rental;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RentalController extends Controller
 {
@@ -14,6 +15,15 @@ class RentalController extends Controller
         'book_id' => 'required|exists:books,id',
         'user_id' => 'required|exists:users,id',
     ]);
+
+    $isRented = Rental::where('user_id', Auth::id())
+            ->where('book_id', $request->book_id)
+            ->whereNull('returned_at')
+            ->exists();   
+
+    if ($isRented) {
+        return redirect()->back()->with('error', 'Você já alugou este livro!');
+    }
 
     Rental::create([
         'user_id' => $request->user_id,
