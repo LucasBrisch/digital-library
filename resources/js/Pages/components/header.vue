@@ -6,6 +6,11 @@
     </div>
 
     <div class="right">
+
+        <div class="logout-container">
+            <button @click="profile" class="logout">Perfil</button>
+        </div>
+
         <div class="logout-container">
             <button @click="logout" class="logout">Sair</button>
             <!-- <img src="" alt=""> -->
@@ -64,4 +69,7 @@ import { router } from '@inertiajs/vue3';
 const logout = () => {
     router.post('/logout');
 };
+const profile = () => {
+    router.get('profile')
+}
 </script>

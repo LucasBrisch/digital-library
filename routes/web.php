@@ -3,9 +3,10 @@
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\RentalController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 
 Route::get('/register', [RegisterController::class, 'create'])->name('register');
 Route::post('/register', [RegisterController::class, 'store']);
@@ -20,5 +21,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/books', [BookController::class, 'index']);
     Route::post('/rent-a-book', [RentalController::class, 'store'])->name('rent.a.book');
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
-    
+    Route::get('/profile', [UserController::class, 'profile']);
 });
