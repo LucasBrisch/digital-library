@@ -13,7 +13,13 @@
                 <h2> Seus alugueis</h2>
                 
                 <div class="rentals">
-                    
+                    <div v-for="rent in props.Rentals">
+                        <div v-if="rent.returned_at == null" class="rent-object">    
+                            {{ rent.book.title }} 
+                            <p>Data do aluguel: {{ rent.rented_at }}</p>
+                            <button @click="bookreturn(rent)">Devolver</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -26,6 +32,8 @@
             </div>
             
         </div>
+
+        <!-- <pre>{{ props.Rentals }}</pre> -->
     </div>
 
 
@@ -38,12 +46,19 @@
         Rentals : Array,
         User : Object,
     })
+
+    const bookreturn = ($rent) => {}
 </script>
 <style>
+
+
 .user-info {
     justify-content: center;
     display: flex;
 }
+
+/* GRADES */
+
 .grades-container{
     border: 2px solid purple
 }
@@ -51,12 +66,24 @@
     border: 2px solid black;
 }
 
+
+/* RENT */
+
 .rentals-container {
     border: 2px solid aqua;
 }
 .rentals {
     border: 2px solid blue;
 }
+.rent-object {
+    display: flex;
+    flex-direction: column;
+}
+
+.rent-object button {
+    margin-bottom: 0.2rem;
+}
+
 
 .info-container {
     border: 2px solid pink;
