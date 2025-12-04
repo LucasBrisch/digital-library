@@ -17,7 +17,7 @@
                         <div v-if="rental.returned_at == null" class="rent-object">    
                             {{ rental.book.title }} 
                             <p>Data do aluguel: {{ rental.rented_at }}</p>
-                            <button @click="bookreturn(rental.id)">Devolver</button>
+                            <button @click="bookreturn(rental.id, rental.book)">Devolver</button>
                         </div>
                     </div>
                 </div>
@@ -33,26 +33,78 @@
             
         </div>
 
-        <pre>{{ props.Rentals }}</pre>
+
+        <!-- Pop-up de avaliação -->
+        <div v-if="showRatingModal" class="modal-overlay" @click="closeModal">
+            <div class="modal-content" @click.stop>
+                <h2>Deseja avaliar "{{ selectedBook.title }}"?</h2>
+                
+                <div class="rating-stars">
+                    <span v-for="star in 5" :key="star" 
+                          @click="selectedRating = star"
+                          :class="{ 'active': star <= selectedRating }"
+                          class="star">
+                        ★
+                    </span>
+                </div>
+                
+                <div class="modal-buttons">
+                    <button @click="submitRating" class="btn-submit">Avaliar</button>
+                    <button @click="closeModal" class="btn-cancel">Agora não</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- <pre>{{ props.Rentals }}</pre> -->
     </div>
 
 
 </template>
 <script setup>
+    import { ref } from 'vue';
     import { router, usePage } from '@inertiajs/vue3';
     import Header from '../components/header.vue';
-
 
     const props = defineProps ({
         Rentals : Array,
         User : Object,
     })
 
-    const bookreturn = ($rental) => {
+    const showRatingModal = ref(false);
+    const selectedBook = ref(null);
+    const selectedRating = ref(0);
 
+    const bookreturn = (rentalId, book) => {
         router.post('/return-book', {
-            "rental_id" : $rental
+            "rental_id" : rentalId
+        }, {
+            onSuccess: () => {
+                selectedBook.value = book;
+                showRatingModal.value = true;
+            }
         })
+    }
+
+    const submitRating = () => {
+        if (selectedRating.value === 0) {
+            alert('Por favor, selecione uma nota!');
+            return;
+        }
+        alert(selectedRating.value)
+        router.post('/rate-book', {
+            book_id: selectedBook.value.id,
+            rate: selectedRating.value
+        }, {
+            onSuccess: () => {
+                closeModal();
+            }
+        });
+    }
+
+    const closeModal = () => {
+        showRatingModal.value = false;
+        selectedBook.value = null;
+        selectedRating.value = 0;
     }
 </script>
 <style>
@@ -96,5 +148,72 @@
     flex-direction: row;
     display: flex;
     justify-content: space-evenly;
+}
+
+/* MODAL */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+}
+
+.rating-stars {
+    margin: 1.5rem 0;
+    font-size: 3rem;
+}
+
+.star {
+    cursor: pointer;
+    color: #ddd;
+    transition: color 0.2s;
+}
+
+.star.active {
+    color: #ffd700;
+}
+
+.star:hover {
+    color: #ffed4e;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.btn-submit, .btn-cancel {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.btn-submit {
+    background-color: #3490dc;
+    color: white;
+}
+
+.btn-cancel {
+    background-color: #e3e3e3;
+    color: #333;
 }
 </style>
