@@ -2,7 +2,10 @@
 <div class="main">
 
     <div class="left">
-        a
+        <div class="home-container">
+            <button @click="home" class="home">Home</button>
+        </div>
+
     </div>
 
     <div class="right">
@@ -38,6 +41,7 @@
 .left {
     width: 50%;
     border: 2px purple solid;
+    display: flex;
 }
 
 .right {
@@ -45,6 +49,23 @@
     border: 2px green solid;
     display: flex;
     justify-content: flex-end;
+}
+.home-container {
+    flex-direction: column;
+    justify-content: center;
+    display: flex;
+}
+.home {
+    color: rgb(255, 255, 255);
+    font-size:large;
+
+    background-color: rgb(85, 84, 84);
+    border: none;
+    height: 45%;
+    width: 4rem;
+    margin-left: 0.5rem;
+    border-radius: 12px;
+
 }
 .logout-container {
     flex-direction: column;
@@ -71,5 +92,8 @@ const logout = () => {
 };
 const profile = () => {
     router.get('profile')
+}
+const home = () => {
+    router.get('/books')
 }
 </script>
