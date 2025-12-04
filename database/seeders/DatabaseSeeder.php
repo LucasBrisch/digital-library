@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Book;
 use App\Models\Rental;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -46,7 +47,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Criar alguns livros
-        $books = Book::insert([
+        Book::insert([
             [
                 'title' => 'O Senhor dos Anéis',
                 'total_copies' => 10,
@@ -85,5 +86,32 @@ class DatabaseSeeder extends Seeder
                 'returned_at' => rand(0,1) ? now()->subDays(rand(0, 5)) : null
             ]);
         }
+
+        // Criar algumas avaliações
+        $ratings = [];
+        foreach ($bookList as $book) {
+            // Cada livro recebe de 2 a 5 avaliações
+            $numberOfRatings = rand(2, 5);
+            $usedUsers = [];
+            
+            for ($i = 0; $i < $numberOfRatings; $i++) {
+                // Garantir que o mesmo usuário não avalie o mesmo livro duas vezes
+                do {
+                    $user = $users->random();
+                } while (in_array($user->id, $usedUsers));
+                
+                $usedUsers[] = $user->id;
+                
+                $ratings[] = [
+                    'book_id' => $book->id,
+                    'user_id' => $user->id,
+                    'rate' => round(rand(10, 50) / 10, 1), // Notas de 1.0 a 5.0
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ];
+            }
+        }
+
+        DB::table('rating')->insert($ratings);
     }
 }
