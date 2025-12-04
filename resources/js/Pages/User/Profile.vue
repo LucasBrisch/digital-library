@@ -27,7 +27,11 @@
                 <h2> Suas avaliações</h2>
 
                 <div class="grades">
-
+                    <div v-for="rental in props.Rentals">
+                        <div v-if="rental.book.isRated === true && rental.returned_at != null" class="grade-obect">
+                            {{ rental.book.title }} - {{ rental.book.userRate }}
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -55,7 +59,7 @@
             </div>
         </div>
 
-        <!-- <pre>{{ props.Rentals }}</pre> -->
+        <pre>{{ props.Rentals }}</pre>
     </div>
 
 
@@ -90,7 +94,6 @@
             alert('Por favor, selecione uma nota!');
             return;
         }
-        alert(selectedRating.value)
         router.post('/rate-book', {
             book_id: selectedBook.value.id,
             rate: selectedRating.value
@@ -122,6 +125,10 @@
 }
 .grades {
     border: 2px solid black;
+}
+.grade-obect {
+    display: flex;
+    justify-content: center;
 }
 
 
