@@ -13,11 +13,11 @@
                 <h2> Seus alugueis</h2>
                 
                 <div class="rentals">
-                    <div v-for="rent in props.Rentals">
-                        <div v-if="rent.returned_at == null" class="rent-object">    
-                            {{ rent.book.title }} 
-                            <p>Data do aluguel: {{ rent.rented_at }}</p>
-                            <button @click="bookreturn(rent)">Devolver</button>
+                    <div v-for="rental in props.Rentals">
+                        <div v-if="rental.returned_at == null" class="rent-object">    
+                            {{ rental.book.title }} 
+                            <p>Data do aluguel: {{ rental.rented_at }}</p>
+                            <button @click="bookreturn(rental.id)">Devolver</button>
                         </div>
                     </div>
                 </div>
@@ -33,12 +33,13 @@
             
         </div>
 
-        <!-- <pre>{{ props.Rentals }}</pre> -->
+        <pre>{{ props.Rentals }}</pre>
     </div>
 
 
 </template>
 <script setup>
+    import { router, usePage } from '@inertiajs/vue3';
     import Header from '../components/header.vue';
 
 
@@ -47,7 +48,12 @@
         User : Object,
     })
 
-    const bookreturn = ($rent) => {}
+    const bookreturn = ($rental) => {
+
+        router.post('/return-book', {
+            "rental_id" : $rental
+        })
+    }
 </script>
 <style>
 

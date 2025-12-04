@@ -22,4 +22,5 @@ Route::middleware('auth')->group(function () {
     Route::post('/rent-a-book', [RentalController::class, 'store'])->name('rent.a.book');
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
     Route::get('/profile', [UserController::class, 'profile']);
+    Route::post('/return-book', [RentalController::class, 'returnbook']);
 });

@@ -9,6 +9,27 @@ use Illuminate\Support\Facades\Auth;
 class RentalController extends Controller
 {
     
+    public function returnbook (Request $request) {
+        $request->validate([
+            'rental_id' => 'required|exists:rentals,id',
+        ]);
+
+        $rental = Rental::where('id', $request->rental_id)
+            ->where('user_id', Auth::id())
+            ->whereNull('returned_at')
+            ->first();
+
+        if (!$rental) {
+            return redirect()->back()->with('error', 'Aluguel não encontrado ou já devolvido!');
+        }
+
+        $rental->update([
+            'returned_at' => now(),
+        ]);
+
+        return redirect()->back()->with('success', 'Livro devolvido com sucesso!');
+    }
+
     public function store(Request $request) {
 
         $request->validate([
