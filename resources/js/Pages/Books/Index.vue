@@ -59,6 +59,13 @@ const rentBook = (bookId) => {
                         <span v-if="book.is_rented">Alugado</span>
 
                         <button 
+                        v-else-if="book.already_rented" 
+                        @click="rentBook(book.id)"
+                        >
+                        Alugar novamente
+                        </button>
+                        
+                        <button 
                             v-else-if="book.available_copies > 0" 
                             @click="rentBook(book.id)"
                         >

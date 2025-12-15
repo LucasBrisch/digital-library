@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Rating;
 use Inertia\Inertia;
 use App\Models\Rental;
 use Illuminate\Http\Request;
@@ -22,7 +23,8 @@ class BookController extends Controller
                 'total_copies' => $book->total_copies,
                 'rented_copies' => $book->rented_copies, 
                 'available_copies' => max(0, $book->total_copies - $book->rented_copies), 
-                'is_rented' => Rental::where('user_id', Auth::id())->where('book_id', $book->id)->whereNull('returned_at')->exists()
+                'is_rented' => Rental::where('user_id', Auth::id())->where('book_id', $book->id)->whereNull('returned_at')->exists(),
+                'already_rented' => Rating::where('user_id', Auth::id())->where('book_id', $book->id)->exists(),
             ];
         });
 
