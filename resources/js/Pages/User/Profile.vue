@@ -27,10 +27,8 @@
                 <h2> Suas avaliações</h2>
 
                 <div class="grades">
-                    <div v-for="rental in props.Rentals">
-                        <div v-if="rental.book.isRated === true && rental.returned_at != null" class="grade-obect">
-                            {{ rental.book.title }} - {{ rental.book.userRate }}
-                        </div>
+                    <div v-for="rental in uniqueRatedBooks" :key="rental.book.id" class="grade-obect">
+                        {{ rental.book.title }} - {{ rental.book.userRate }}
                     </div>
                 </div>
             </div>
@@ -41,7 +39,8 @@
         <!-- Pop-up de avaliação -->
         <div v-if="showRatingModal" class="modal-overlay" @click="closeModal">
             <div class="modal-content" @click.stop>
-                <h2>Deseja avaliar "{{ selectedBook.title }}"?</h2>
+                <h2 v-if="!selectedBook.isRated">Deseja avaliar "{{ selectedBook.title }}"?</h2>
+                <h2 v-if="selectedBook.isRated">Deseja mudar sua nota para "{{ selectedBook.title }}"?</h2>
                 
                 <div class="rating-stars">
                     <span v-for="star in 5" :key="star" 
@@ -68,6 +67,18 @@
     import { ref } from 'vue';
     import { router, usePage } from '@inertiajs/vue3';
     import Header from '../components/header.vue';
+    import { computed } from 'vue';
+
+    const uniqueRatedBooks = computed(() => {
+        const seen = new Set();
+        return props.Rentals
+            .filter(rental => rental.book.isRated && rental.returned_at)
+            .filter(rental => {
+                if (seen.has(rental.book.id)) return false;
+                seen.add(rental.book.id);
+                return true;
+            });
+    });
 
     const props = defineProps ({
         Rentals : Array,
@@ -90,18 +101,31 @@
     }
 
     const submitRating = () => {
+        console.log(selectedBook.value)
         if (selectedRating.value === 0) {
             alert('Por favor, selecione uma nota!');
             return;
         }
-        router.post('/rate-book', {
-            book_id: selectedBook.value.id,
-            rate: selectedRating.value
-        }, {
-            onSuccess: () => {
-                closeModal();
-            }
-        });
+
+        if (!selectedBook.value.isRated) {
+            router.post('/rate-book', {
+                book_id: selectedBook.value.id,
+                rate: selectedRating.value
+            }, {
+                onSuccess: () => {
+                    closeModal();
+                }
+            });
+        } else {
+            router.post('/change-rating', {
+                book_id: selectedBook.value.id,
+                rate: selectedRating.value
+            }, {
+                onSuccess: () => {
+                    closeModal();
+                }
+            });
+        }
     }
 
     const closeModal = () => {

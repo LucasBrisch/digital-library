@@ -102,10 +102,10 @@ class DatabaseSeeder extends Seeder
                 
                 $usedUsers[] = $user->id;
                 
-                $ratings[] = [
-                    'book_id' => $book->id,
-                    'user_id' => $user->id,
-                    'rate' => round(rand(10, 50) / 10, 1), // Notas de 1.0 a 5.0
+                    $ratings[] = [
+                        'book_id' => $book->id,
+                        'user_id' => $user->id,
+                        'rate' => rand(1, 5), // Notas de 1 a 5
                     'created_at' => now(),
                     'updated_at' => now()
                 ];

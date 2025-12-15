@@ -25,4 +25,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [UserController::class, 'profile']);
     Route::post('/return-book', [RentalController::class, 'returnbook']);
     Route::post('/rate-book', [RatingController::class, 'store']);
+    Route::post('/change-rating', [RatingController::class, 'edit']);
 });

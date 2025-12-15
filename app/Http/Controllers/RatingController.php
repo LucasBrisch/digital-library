@@ -22,4 +22,17 @@ class RatingController extends Controller
 
         return redirect()->back();
     }
+
+    public function edit(Request $request){
+        $request->validate([
+            'book_id' => 'required',
+            'rate' => 'required'
+        ]);
+
+        Rating::where('book_id', $request->book_id)
+            ->where('user_id', Auth::id())
+            ->update(['rate' => $request->rate]);
+
+        return redirect()->back();
+    }
 }
