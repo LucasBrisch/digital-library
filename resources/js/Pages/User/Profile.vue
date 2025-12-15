@@ -17,6 +17,9 @@
                         <div v-if="rental.returned_at == null" class="rent-object">    
                             {{ rental.book.title }} 
                             <p>Data do aluguel: {{ rental.rented_at }}</p>
+                            <p>Devolva ou renove o emprestimo do livro em até {{ daysLeft(rental) }} dias</p>
+
+                            
                             <button @click="bookreturn(rental.id, rental.book)">Devolver</button>
                         </div>
                     </div>
@@ -98,6 +101,17 @@
                 showRatingModal.value = true;
             }
         })
+    }
+
+    function daysLeft(rental) {
+        if (!rental.due_date) return '-';
+        const dueDate = new Date(rental.due_date);
+        const today = new Date();
+        dueDate.setHours(0,0,0,0);
+        today.setHours(0,0,0,0);
+        const diffTime = dueDate - today;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return diffDays >= 0 ? diffDays : 0;
     }
 
     const submitRating = () => {

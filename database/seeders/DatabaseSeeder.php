@@ -75,43 +75,44 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Buscar os livros recém-criados
-        $bookList = Book::all();
+        // $bookList = Book::all();
 
         // Criar alguns rentals
-        foreach ($bookList as $book) {
-            Rental::create([
-                'book_id' => $book->id,
-                'user_id' => $users->random()->id,
-                'rented_at' => now()->subDays(rand(1, 10)),
-                'returned_at' => rand(0,1) ? now()->subDays(rand(0, 5)) : null
-            ]);
-        }
+        // foreach ($bookList as $book) {
+        //     Rental::create([
+        //         'book_id' => $book->id,
+        //         'user_id' => $users->random()->id,
+        //         'rented_at' => now()->subDays(rand(1, 10)),
+        //         'returned_at' => rand(0,1) ? now()->subDays(rand(0, 5)) : null
+        //     ]);
+        // }
 
         // Criar algumas avaliações
-        $ratings = [];
-        foreach ($bookList as $book) {
-            // Cada livro recebe de 2 a 5 avaliações
-            $numberOfRatings = rand(2, 5);
-            $usedUsers = [];
-            
-            for ($i = 0; $i < $numberOfRatings; $i++) {
-                // Garantir que o mesmo usuário não avalie o mesmo livro duas vezes
-                do {
-                    $user = $users->random();
-                } while (in_array($user->id, $usedUsers));
-                
-                $usedUsers[] = $user->id;
-                
-                    $ratings[] = [
-                        'book_id' => $book->id,
-                        'user_id' => $user->id,
-                        'rate' => rand(1, 5), // Notas de 1 a 5
-                    'created_at' => now(),
-                    'updated_at' => now()
-                ];
-            }
-        }
 
-        DB::table('rating')->insert($ratings);
+        // $ratings = [];
+        // foreach ($bookList as $book) {
+        //     // Cada livro recebe de 2 a 5 avaliações
+        //     $numberOfRatings = rand(2, 5);
+        //     $usedUsers = [];
+            
+        //     for ($i = 0; $i < $numberOfRatings; $i++) {
+        //         // Garantir que o mesmo usuário não avalie o mesmo livro duas vezes
+        //         do {
+        //             $user = $users->random();
+        //         } while (in_array($user->id, $usedUsers));
+                
+        //         $usedUsers[] = $user->id;
+                
+        //             $ratings[] = [
+        //                 'book_id' => $book->id,
+        //                 'user_id' => $user->id,
+        //                 'rate' => rand(1, 5), // Notas de 1 a 5
+        //             'created_at' => now(),
+        //             'updated_at' => now()
+        //         ];
+        //     }
+        // }
+
+        // DB::table('rating')->insert($ratings);
     }
 }

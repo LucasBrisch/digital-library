@@ -11,6 +11,7 @@ class Rental extends Model
         'user_id',
         'rented_at',
         'returned_at',
+        'due_date',
     ];
 
     public function book()

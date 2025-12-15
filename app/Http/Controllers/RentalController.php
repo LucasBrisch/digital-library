@@ -51,6 +51,7 @@ class RentalController extends Controller
         'user_id' => $request->user_id,
         'book_id' => $request->book_id,
         'rented_at' => now(),
+        'due_date' => now()->addDays($request->rental_days),
         'returned_at' => null,
     ]);
 

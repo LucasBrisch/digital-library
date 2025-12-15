@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps } from 'vue';
+import { ref, defineProps } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
 import Header from '../components/header.vue';
 
@@ -10,17 +10,27 @@ const props = defineProps({
     userId: Number
 });
 
-const rentBook = (bookId) => {
+const showModal = ref(false);
+const selectedBookId = ref(null);
+
+const openModal = (bookId) => {
+    selectedBookId.value = bookId;
+    showModal.value = true;
+};
+
+const rentBook = (days) => {
     const userId = props.userId;
     if (!userId) {
         alert('Usuário não autenticado');
         return;
     }
-
     router.post('/rent-a-book', {
-        book_id: bookId,
-        user_id: userId
+        book_id: selectedBookId.value,
+        user_id: userId,
+        rental_days: days
     });
+    showModal.value = false;
+    selectedBookId.value = null;
 };
 
 </script>
@@ -58,21 +68,32 @@ const rentBook = (bookId) => {
                     <td>
                         <span v-if="book.is_rented">Alugado</span>
 
+
                         <button 
-                        v-else-if="book.already_rented" 
-                        @click="rentBook(book.id)"
+                            v-else-if="book.already_rented" 
+                            @click="openModal(book.id)"
                         >
-                        Alugar novamente
+                            Alugar novamente
                         </button>
                         
                         <button 
                             v-else-if="book.available_copies > 0" 
-                            @click="rentBook(book.id)"
+                            @click="openModal(book.id)"
                         >
                             Alugar
                         </button>
-
                         <span v-else>Indisponível</span>
+
+        <div v-if="showModal" class="modal-overlay">
+            <div class="modal-content">
+                <h2>Por quanto tempo deseja alugar?</h2>
+                <button @click="rentBook(7)">7 dias</button>
+                <button @click="rentBook(30)">30 dias</button>
+                <button @click="rentBook(60)">60 dias</button>
+                <button @click="showModal = false">Cancelar</button>
+            </div>
+        </div>
+
                     </td>
                 </tr>
             </tbody>
@@ -97,5 +118,22 @@ th, td {
 
 th {
     background-color: rgb(172, 172, 172);
+}
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1000;
+}
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+}
+.modal-content button {
+    margin: 0.5rem;
+    padding: 0.5rem 1.5rem;
 }
 </style>

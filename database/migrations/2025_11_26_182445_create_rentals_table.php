@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();     
             $table->timestamp('rented_at');
             $table->timestamp('returned_at')->nullable();    
+            $table->timestamp('due_date')->nullable();
             $table->timestamps();
         });
     }
