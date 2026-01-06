@@ -8,6 +8,8 @@ use App\Http\Controllers\RatingController;
 use App\Http\Controllers\RentalController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\FriendshipController;
+use App\Models\Friendship;
 
 Route::get('/register', [RegisterController::class, 'create'])->name('register');
 Route::post('/register', [RegisterController::class, 'store']);
@@ -26,4 +28,5 @@ Route::middleware('auth')->group(function () {
     Route::post('/return-book', [RentalController::class, 'returnbook']);
     Route::post('/rate-book', [RatingController::class, 'store']);
     Route::post('/change-rating', [RatingController::class, 'edit']);
+    Route::get('/friends', [FriendshipController::class, 'index']);
 });

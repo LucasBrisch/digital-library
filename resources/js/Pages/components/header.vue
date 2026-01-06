@@ -9,6 +9,9 @@
     </div>
 
     <div class="right">
+        <div class="logout-container">
+            <button @click="friends" class="logout"> Amigos </button>
+        </div>
 
         <div class="logout-container">
             <button @click="profile" class="logout">Perfil</button>
@@ -79,7 +82,7 @@
     background-color: rgb(85, 84, 84);
     border: none;
     height: 45%;
-    width: 4rem;
+    width: fill;
     margin-right: 0.5rem;
     border-radius: 12px;
 }
@@ -95,5 +98,8 @@ const profile = () => {
 }
 const home = () => {
     router.get('/books')
+}
+const friends = () => {
+    router.get('/friends')
 }
 </script>
