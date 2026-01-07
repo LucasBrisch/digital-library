@@ -1,91 +1,71 @@
 <template>
 <div class="main">
-
     <div class="left">
-        <div class="home-container">
-            <button @click="home" class="home">Home</button>
-        </div>
-
+        <button @click="home" class="home">Home</button>
     </div>
 
     <div class="right">
-        <div class="logout-container">
-            <button @click="friends" class="logout"> Amigos </button>
-        </div>
-
-        <div class="logout-container">
-            <button @click="profile" class="logout">Perfil</button>
-        </div>
-
-        <div class="logout-container">
-            <button @click="logout" class="logout">Sair</button>
-            <!-- <img src="" alt=""> -->
-        </div>
+        <button @click="friends" class="logout">Amigos</button>
+        <button @click="profile" class="logout">Perfil</button>
+        <button @click="logout" class="logout">Sair</button>
+        <div style="margin-right: 1rem;"></div> <!-- I know, but I don't care, it works -->
     </div>
-    
 </div>
 
 </template>
 
-<style lang="css">
+<style lang="css" scoped>
 
 .main {
-    background-color: aqua;
+    background-color: #1E3A34;
     margin: 0;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 4.5rem;
-    display: flex
-    ;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.left {
-    width: 50%;
-    border: 2px purple solid;
+.left, .right {
     display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-.right {
-    width: 50%;
-    border: 2px green solid;
-    display: flex;
-    justify-content: flex-end;
-}
-.home-container {
-    flex-direction: column;
-    justify-content: center;
-    display: flex;
-}
-.home {
-    color: rgb(255, 255, 255);
-    font-size:large;
-
-    background-color: rgb(85, 84, 84);
+.home, .logout {
+    color: #FFFFFF;
+    font-size: 1rem;
+    font-weight: 500;
+    background-color: transparent;
     border: none;
-    height: 45%;
-    width: 4rem;
-    margin-left: 0.5rem;
-    border-radius: 12px;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
 
+.home:hover, .logout:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
-.logout-container {
-    flex-direction: column;
-    justify-content: center;
-    display: flex;
-}
-.logout {
-    color: rgb(255, 255, 255);
-    font-size:large;
 
-    background-color: rgb(85, 84, 84);
-    border: none;
-    height: 45%;
-    width: fill;
-    margin-right: 0.5rem;
-    border-radius: 12px;
+@media (max-width: 480px) {
+    .main {
+        padding: 0 0.5rem;
+    }
+    .home, .logout {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.6rem;
+    }
+    .right {
+        gap: 0.2rem;
+    }
 }
+
 </style>
 
 <script setup>
