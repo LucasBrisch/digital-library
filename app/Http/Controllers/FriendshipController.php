@@ -54,4 +54,29 @@ class FriendshipController extends Controller
             'allusers' => $allusers
         ]);
     }
-}
+
+    public function sendRequest(Request $req) {
+        Friendship::create([
+        'requester_id' => Auth::id(),
+        'addressee_id' => $req->id,
+        'status' => 'pending',
+    ]);
+    return redirect()->back();
+    }
+
+    public function refuseRequest (Request $req) {
+        Friendship::where('requester_id', '=', $req->id)
+            ->where('addressee_id', '=', Auth::id())
+            ->delete();
+            
+        return redirect()->back();
+    }
+
+    public function acceptRequest (Request $req) {
+        Friendship::where('requester_id', '=', $req->id)
+            ->where('addressee_id', '=', Auth::id())
+            ->update(['status' => 'accepted']);
+            
+        return redirect()->back();
+    }
+ }

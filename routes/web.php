@@ -28,5 +28,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/return-book', [RentalController::class, 'returnbook']);
     Route::post('/rate-book', [RatingController::class, 'store']);
     Route::post('/change-rating', [RatingController::class, 'edit']);
+
     Route::get('/friends', [FriendshipController::class, 'index']);
+    Route::post('/send-request', [FriendshipController::class, 'sendRequest'])->name('friends.send.request');
+    Route::get('/refuse-request', [FriendshipController::class, 'refuseRequest']);
+    Route::post('/accept-request', [FriendshipController::class, 'acceptRequest']);
 });
