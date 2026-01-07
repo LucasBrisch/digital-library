@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Book;
+use App\Models\Friendship;
 use App\Models\Rental;
 use Illuminate\Support\Facades\DB;
 
@@ -44,6 +45,36 @@ class DatabaseSeeder extends Seeder
                 'password' => bcrypt('password'),
                 'role' => 'user',
             ]),
+        ]);
+
+        $lucas = $users->firstWhere('email', 'lucas@biblioteca.com');
+        $maria = $users->firstWhere('email', 'maria@biblioteca.com');
+        $joao = $users->firstWhere('email', 'joao@biblioteca.com');
+        $ana = $users->firstWhere('email', 'ana@biblioteca.com');
+        $pedro = $users->firstWhere('email', 'pedro@biblioteca.com');
+
+        Friendship::create([
+            'requester_id' => $lucas->id,
+            'addressee_id' => $maria->id,
+            'status' => 'accepted',
+        ]);
+
+        Friendship::create([
+            'requester_id' => $lucas->id,
+            'addressee_id' => $joao->id,
+            'status' => 'pending',
+        ]);
+
+        Friendship::create([
+            'requester_id' => $ana->id,
+            'addressee_id' => $lucas->id,
+            'status' => 'pending',
+        ]);
+
+        Friendship::create([
+            'requester_id' => $lucas->id,
+            'addressee_id' => $pedro->id,
+            'status' => 'blocked',
         ]);
 
         // Criar alguns livros

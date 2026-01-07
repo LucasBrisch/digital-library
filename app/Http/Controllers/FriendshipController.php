@@ -47,9 +47,11 @@ class FriendshipController extends Controller
             ];
         });
 
+        $allusers = User::all();
+
         return Inertia::render('User/Friends', [
             'users' => $usersWithStatus,
-            'userId' => $currentUserId
+            'allusers' => $allusers
         ]);
     }
 }
