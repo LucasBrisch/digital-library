@@ -79,4 +79,18 @@ class FriendshipController extends Controller
             
         return redirect()->back();
     }
+
+    public function removeFriendship (Request $req) {
+    Friendship::where(function($query) use ($req) {
+        $query->where('requester_id', Auth::id())
+              ->where('addressee_id', $req->id);
+    })
+    ->orWhere(function($query) use ($req) {
+        $query->where('requester_id', $req->id)
+              ->where('addressee_id', Auth::id());
+    })
+    ->delete();
+    
+    return redirect()->back();
+}
  }

@@ -33,4 +33,5 @@ Route::middleware('auth')->group(function () {
     Route::post('/send-request', [FriendshipController::class, 'sendRequest'])->name('friends.send.request');
     Route::get('/refuse-request', [FriendshipController::class, 'refuseRequest']);
     Route::post('/accept-request', [FriendshipController::class, 'acceptRequest']);
+    Route::post('/remove-friendship', [FriendshipController::class, 'removeFriendship']);
 });

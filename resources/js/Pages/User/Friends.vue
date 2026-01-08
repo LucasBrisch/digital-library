@@ -32,7 +32,7 @@
                 <h3 class="card-title">Amigos</h3>
                 <div v-if="friends.length > 0" class="user-list">
                     <div v-for="user in friends" :key="user.id" class="user-item">
-                        <span class="user-name">{{ user.name }}</span>
+                        <span class="user-name">{{ user.name }} <button @click="">Ver Perfil</button> <button @click="remove(user.id)">remover</button></span>
                     </div>
                 </div>
                 <div v-else class="empty-message">Nenhum amigo ainda</div>
@@ -42,7 +42,7 @@
                 <h3 class="card-title">Pedidos Pendentes</h3>
                 <div v-if="pendings.length > 0" class="user-list">
                     <div v-for="user in pendings" :key="user.id" class="user-item">
-                        <span class="user-name">{{ user.name }}</span>
+                        <span class="user-name">{{ user.name }}  <button @click="remove(user.id)">remover</button></span>
                     </div>
                 </div>
                 <div v-else class="empty-message">Nenhum pedido pendente</div>
@@ -113,6 +113,12 @@ const addfriend = (id) => {
         onSuccess: () => {}
     })
 
+}
+
+const remove = (id) => {
+  router.post('/remove-friendship', {
+    'id' : id
+  })
 }
 
 const refuse = (id) => {
