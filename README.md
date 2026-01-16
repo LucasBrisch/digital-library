@@ -1,59 +1,199 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📚 Digital Library
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A modern web-based digital library management system built with Laravel and Vue.js. This application allows users to browse, rent, and manage books, rate their reading experiences, and connect with other readers through a social friendship system.
 
-## About Laravel
+## ✨ Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 📖 Book Management
+- Browse and search available books
+- View detailed book information (title, author, availability)
+- Track total copies and available copies in real-time
+- Active/inactive book status management
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 🔄 Rental System
+- Rent books with automatic due date tracking
+- Return books and update availability
+- View rental history and active rentals
+- Due date management to prevent overdue returns
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### ⭐ Rating & Reviews
+- Rate books after reading
+- View ratings from other users
+- Help the community discover great books
 
-## Learning Laravel
+### 👥 Social Features
+- Friend system with request/accept functionality
+- Connect with other readers
+- Share reading experiences with friends
+- View friends' profiles and reading activities
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 🔐 Authentication
+- User registration and login
+- Secure authentication system
+- User profile management
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🛠️ Tech Stack
 
-## Laravel Sponsors
+### Backend
+- **PHP 8.2+** - Modern PHP features and performance
+- **Laravel 12** - Elegant PHP framework for web artisans
+- **MySQL/SQLite** - Relational database management
+- **Inertia.js** - Modern monolith architecture
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Frontend
+- **Vue.js 3** - Progressive JavaScript framework
+- **Tailwind CSS 4** - Utility-first CSS framework
+- **Vite** - Next-generation frontend tooling
+- **Axios** - Promise-based HTTP client
 
-### Premium Partners
+### Development Tools
+- **Laravel Pint** - Code style fixer for PHP
+- **PHPUnit** - PHP testing framework
+- **Laravel Sail** - Docker development environment
+- **Concurrently** - Run multiple commands simultaneously
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## 📋 Requirements
 
-## Contributing
+- PHP 8.2 or higher
+- Composer
+- Node.js & NPM
+- MySQL or SQLite
+- Git
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 🚀 Installation
 
-## Code of Conduct
+### Quick Setup
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+# Clone the repository
+git clone https://github.com/LucasBrisch/digital-library.git
+cd digital-library
 
-## Security Vulnerabilities
+# Run the automated setup script
+composer setup
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Manual Setup
 
-## License
+```bash
+# Install PHP dependencies
+composer install
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# Install JavaScript dependencies
+npm install
+
+# Copy environment file
+cp .env.example .env
+
+# Generate application key
+php artisan key:generate
+
+# Configure your database in .env file
+# Then run migrations
+php artisan migrate
+
+# Build frontend assets
+npm run build
+```
+
+## 🎮 Usage
+
+### Development Mode
+
+Run all services concurrently (server, queue, logs, and Vite):
+
+```bash
+composer dev
+```
+
+This will start:
+- Laravel development server (http://localhost:8000)
+- Queue worker for background jobs
+- Real-time log monitoring with Pail
+- Vite dev server with HMR
+
+### Individual Commands
+
+```bash
+# Start the development server
+php artisan serve
+
+# Watch and compile frontend assets
+npm run dev
+
+# Build for production
+npm run build
+
+# Run tests
+composer test
+```
+
+## 📁 Project Structure
+
+```
+digital-library/
+├── app/
+│   ├── Http/
+│   │   └── Controllers/
+│   │       ├── Auth/          # Authentication controllers
+│   │       ├── BookController.php
+│   │       ├── RentalController.php
+│   │       ├── RatingController.php
+│   │       ├── FriendshipController.php
+│   │       └── UserController.php
+│   └── Models/
+│       ├── Book.php           # Book model with rentals
+│       ├── Rental.php         # Rental management
+│       ├── Rating.php         # Book ratings
+│       ├── Friendship.php     # Friend system
+│       └── User.php           # User model
+├── database/
+│   ├── migrations/            # Database schema
+│   └── seeders/              # Database seeders
+├── resources/
+│   ├── js/
+│   │   ├── Pages/
+│   │   │   ├── Auth/         # Login & Register
+│   │   │   ├── Books/        # Book views
+│   │   │   └── User/         # User & Friends pages
+│   │   └── app.js            # Vue.js app entry
+│   └── views/                # Blade templates
+├── routes/
+│   ├── web.php               # Web routes
+│   └── api.php               # API routes
+└── tests/                    # Application tests
+```
+
+## 🧪 Testing
+
+```bash
+# Run all tests
+composer test
+
+# Run specific test file
+php artisan test tests/Feature/BookTest.php
+
+# Run tests with coverage
+php artisan test --coverage
+```
+
+## 🔒 Security
+
+If you discover any security vulnerabilities, please create an issue or contact the repository owner directly.
+
+## 📝 License
+
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## 👨‍💻 Author
+
+**Lucas Brisch**
+- GitHub: [@LucasBrisch](https://github.com/LucasBrisch)
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/LucasBrisch/digital-library/issues).
+
+---
+
+Built with ❤️ using Laravel and Vue.js
