@@ -1,5 +1,13 @@
 <template>
     <Header />
+    
+    <Chat 
+        :isOpen="chatOpen"
+        :friendId="selectedFriend?.id"
+        :friendName="selectedFriend?.name"
+        :currentUserId="currentUserId"
+        @close="chatOpen = false"
+    />
 
     <div class="page-container">
         <h1 class="page-title">Amigos</h1>
@@ -32,7 +40,11 @@
                 <h3 class="card-title">Amigos</h3>
                 <div v-if="friends.length > 0" class="user-list">
                     <div v-for="user in friends" :key="user.id" class="user-item">
-                        <span class="user-name">{{ user.name }} <button @click="">Ver Perfil</button> <button @click="remove(user.id)">remover</button></span>
+                        <span class="user-name">{{ user.name }}</span>
+                        <div class="friend-actions">
+                            <button @click="openChat(user)" class="chat-button">💬 Chat</button>
+                            <button @click="remove(user.id)" class="remove-button">remover</button>
+                        </div>
                     </div>
                 </div>
                 <div v-else class="empty-message">Nenhum amigo ainda</div>
@@ -68,12 +80,24 @@
 <script setup>
 import { ref, computed } from 'vue';
 import Header from '../components/header.vue';
-import { router } from '@inertiajs/vue3';
+import Chat from '../components/Chat.vue';
+import { router, usePage } from '@inertiajs/vue3';
 
 const props = defineProps ({
     users: Array,
     allusers : Array
 })
+
+const page = usePage();
+const currentUserId = computed(() => page.props.auth?.user?.id || null);
+
+const chatOpen = ref(false);
+const selectedFriend = ref(null);
+
+const openChat = (friend) => {
+    selectedFriend.value = friend;
+    chatOpen.value = true;
+};
 
 const friends = computed(() => {
     return props.users.filter(user => user.status === 'friend');
@@ -286,10 +310,50 @@ const accept = (id) => {
   border-radius: 8px;
   border: 2px solid #E6F2EF;
   transition: transform 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .user-item:hover {
   transform: translateX(4px);
+}
+
+.friend-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.chat-button {
+  background-color: #3FA796;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.chat-button:hover {
+  background-color: #35917f;
+}
+
+.remove-button {
+  background-color: #e74c3c;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.remove-button:hover {
+  background-color: #c0392b;
 }
 
 .user-item-actions {
