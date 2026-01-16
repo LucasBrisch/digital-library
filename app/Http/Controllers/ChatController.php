@@ -51,7 +51,7 @@ class ChatController extends Controller
     {
         $request->validate([
             'receiver_id' => 'required|exists:users,id',
-            'message' => 'required|string|max:5000',
+            'message' => 'required|string|max:5000|min:1',
         ]);
 
         $currentUserId = Auth::id();
@@ -62,10 +62,13 @@ class ChatController extends Controller
             return response()->json(['error' => 'Not authorized'], 403);
         }
 
+        // Sanitize the message to prevent XSS
+        $sanitizedMessage = htmlspecialchars($request->message, ENT_QUOTES, 'UTF-8');
+
         $message = Message::create([
             'sender_id' => $currentUserId,
             'receiver_id' => $receiverId,
-            'message' => $request->message,
+            'message' => $sanitizedMessage,
             'is_read' => false,
         ]);
 
