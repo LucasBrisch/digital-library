@@ -51,7 +51,10 @@ class FriendshipController extends Controller
 
         return Inertia::render('User/Friends', [
             'users' => $usersWithStatus,
-            'allusers' => $allusers
+            'allusers' => $allusers,
+            'auth' => [
+                'user' => Auth::user()
+            ]
         ]);
     }
 

@@ -9,6 +9,7 @@ use App\Http\Controllers\RentalController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\FriendshipController;
+use App\Http\Controllers\ChatController;
 use App\Models\Friendship;
 
 Route::get('/register', [RegisterController::class, 'create'])->name('register');
@@ -34,4 +35,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/refuse-request', [FriendshipController::class, 'refuseRequest']);
     Route::post('/accept-request', [FriendshipController::class, 'acceptRequest']);
     Route::post('/remove-friendship', [FriendshipController::class, 'removeFriendship']);
+
+    // Chat routes
+    Route::get('/chat/conversations', [ChatController::class, 'getConversations']);
+    Route::get('/chat/messages/{friendId}', [ChatController::class, 'getMessages']);
+    Route::post('/chat/messages', [ChatController::class, 'sendMessage']);
 });
